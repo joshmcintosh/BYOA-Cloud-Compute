@@ -15,7 +15,7 @@ Once these have sucessfully been installed, you
 have all of the docker components needed.
 
 ## Running the project
-On your first run you must start a Docker daemon. This
+On your first run you may need to start a Docker daemon. This
 can be done with
 ``` commandline
 sudo dockerd
