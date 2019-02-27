@@ -8,7 +8,7 @@ install:
 
 script:
     - pytest --cov=app
-    - black . --check
+    - black app --check
     - isort -rc --check .
 
 after_success:
