@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Ross-Alexandra/SENG-371-Project-2.svg?branch=master)](https://travis-ci.org/Ross-Alexandra/SENG-371-Project-2)
+
 # SENG-371-Project-2
 Live use case for BYOA cloud processing framewor
 
