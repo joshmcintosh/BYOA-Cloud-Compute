@@ -1,0 +1,8 @@
+pre-commit
+black
+pytest==3.6
+pytest-cov>=2.6.1
+codecov
+seed-isort-config
+isort
+
