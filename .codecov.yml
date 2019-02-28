@@ -4,3 +4,9 @@ coverage:
   range: "80...100"
 
 
+ignore:
+  "app/manage.py"
+  "app/app/urls.py"
+  "app/app/wsgi.py"
+  "app/app/__init__.py"
+  "app/app/settings.py"
