@@ -1,4 +1,9 @@
 [![Build Status](https://travis-ci.org/Ross-Alexandra/SENG-371-Project-2.svg?branch=master)](https://travis-ci.org/Ross-Alexandra/SENG-371-Project-2)
+[![codecov](https://codecov.io/gh/Ross-Alexandra/SENG-371-Project-2/branch/master/graph/badge.svg)](https://codecov.io/gh/Ross-Alexandra/SENG-371-Project-2)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
+
 
 # SENG-371-Project-2
 Live use case for BYOA cloud processing framewore
