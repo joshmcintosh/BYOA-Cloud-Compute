@@ -5,4 +5,4 @@ pytest-cov>=2.6.1
 codecov
 seed-isort-config
 isort
-
+pytest-django

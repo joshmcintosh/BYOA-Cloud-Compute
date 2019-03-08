@@ -55,7 +55,16 @@ which will ensure the other tools are run when
 you create a commit.
 
 ## Running the tests.
-TODO
+This project uses pytest as its test-runner. In order to run the tests,
+you must run
+``` commandline
+pytest app
+```
+if you're in the root dir, or
+``` commandline
+pytest
+```
+if you're in the app directory.
 
 ## Docker setup
 ### Installation

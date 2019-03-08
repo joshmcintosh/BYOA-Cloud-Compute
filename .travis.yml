@@ -17,8 +17,8 @@ install:
 - pip install -r requirements-dev.txt
 
 script:
-- pytest --cov=app
-- black app --check
+- pytest app --cov=app
+- black app --check --exclude=secret_key.py
 - isort -rc --check .
 - docker build -t ross3834/seng371p2 .
 - docker tag ross3834/seng371p2 registry.heroku.com/$HEROKU_APP_NAME/web
@@ -34,8 +34,4 @@ deploy:
    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
    heroku container:push web --app $HEROKU_APP_NAME;
    heroku container:release web --app $HEROKU_APP_NAME
-  branch: master 
-  #provider: heroku
-  #api_key:
-  #  secure: EKKmj/JOrKwx4iLAG4ESJCfAiNKbgdf6Bj6AGco3r7L1hKJUgKcRbEX27ueNqAgNJWCSH84GUA86X4wBNVdUijRQEwJdnEvLjhjRvd1yMGMVuk18c0GhGuvp8Pp2RSuf/fclLaO6RSHlyPAJd5wQJdVYe6b7p+03rzSat11fQoHmFJKf5AF9OQyVb8gXWT3ueC/kRD4RxQ08PpeWlNCP7MDqi9DvLO2ZtkzEK8H5u/0yTgzGrbaKer5jLK0rd1YjYvh1cHsMsMV1eREarWff29FZZwc6ENlmhS3r+nzOhMCZSOcfwO6+IQoGcOXbsHhYgPdqlOGyipq3fj4OvmeaIQuoxErE+Kw4e9AkbpCGRngqipno1KZzQHlTLLEItll0Arb5Sxgfs6KKr9cXwypyQLlxIEyDSd8E0PQJkXIJzNSf+1nQeZBnw6HTc63/479iScpQjv0rFhZ4L5THmx6ZwKUkBkB85urpeM+rbc0IahFjlHwoaq1c0TiPzEKgxKp4GbPU0gswKT5417lr8Jiv0x1Ke/95hNLh/OJspcdow+/pLgQWVso0XJKx3Z/NOhcxbeMBfcoK3Z2UVWmGCOhMcy06mNqeFIwyK6xWcpsVuMKfRnukRncF6FCPGOJiCx82zkuGllT+AV28kQ1h8nc4UEYgZyuf1ZpwIpXcIX6ZWBw=
-  #app: seng371p2
+  branch: master

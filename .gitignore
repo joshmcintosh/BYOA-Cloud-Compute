@@ -105,4 +105,4 @@ venv.bak/
 
 # Django
 secret_key.py
-
+staticfiles/
