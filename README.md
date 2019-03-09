@@ -6,7 +6,7 @@
 
 
 # SENG-371-Project-2
-Live use case for BYOA cloud processing framework
+Live use case for BYOA cloud compute framework (ccf).
 
 # Running the project
 On your first run you may need to start a Docker daemon. This
