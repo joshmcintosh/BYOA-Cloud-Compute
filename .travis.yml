@@ -17,8 +17,8 @@ install:
 - pip install -r requirements-dev.txt
 
 script:
-- pytest app --cov=app
-- black app --check --exclude=secret_key.py
+- pytest ccf --cov=ccf
+- black ccf --check --exclude=secret_key.py
 - isort -rc --check .
 - docker build -t ross3834/seng371p2 .
 - docker tag ross3834/seng371p2 registry.heroku.com/$HEROKU_APP_NAME/web
