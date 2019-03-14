@@ -30,6 +30,5 @@ else:
             "PORT": "",
         }
     }
-    print(f"DB NAME: {db_user}.")
 
 DEBUG = False
