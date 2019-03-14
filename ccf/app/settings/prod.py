@@ -31,4 +31,6 @@ else:
         }
     }
 
+MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
+
 DEBUG = False
