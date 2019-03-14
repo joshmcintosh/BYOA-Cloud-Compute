@@ -11,9 +11,9 @@ db_user = os.environ.get("DB_NAME")
 db_password = os.environ.get("DB_PASSWORD")
 db_host = os.environ.get("DB_HOST")
 
-# If any values are None, then we cannot create the db with
+# If any values are falsey, then we cannot create the db with
 # prod settings, so use the dev database.
-if any([db_user is None, db_password is None, db_host is None]):
+if any([not db_user, not db_password, not db_host]):
     print(
         "Unable to use prod database settings as not all environmental variables are set."
     )
