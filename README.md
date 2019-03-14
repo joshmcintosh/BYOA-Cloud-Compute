@@ -58,13 +58,13 @@ you create a commit.
 This project uses pytest as its test-runner. In order to run the tests,
 you must run
 ``` commandline
-pytest app
+pytest ccf
 ```
 if you're in the root dir, or
 ``` commandline
 pytest
 ```
-if you're in the app directory.
+if you're in the ccf directory.
 
 ## Docker setup
 ### Installation
