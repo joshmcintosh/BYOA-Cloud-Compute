@@ -1,1 +1,1 @@
-python app/manage.py runserver "0.0.0.0:$PORT"
+python ccf/manage.py runserver "0.0.0.0:$PORT"
