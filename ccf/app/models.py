@@ -3,7 +3,7 @@ from django.db import models
 from django.db.utils import IntegrityError
 
 
-class Jobs(models.Model):
+class Job(models.Model):
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     dockerfile = models.TextField()
@@ -19,4 +19,4 @@ class Jobs(models.Model):
         if not self.datastore_link:
             raise IntegrityError("datastore_link value must not be blank.")
 
-        super(Jobs, self).save(*args, **kwargs)
+        super(Job, self).save(*args, **kwargs)
