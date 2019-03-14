@@ -5,8 +5,8 @@ coverage:
 
 
 ignore:
-  - "app/manage.py"
-  - "app/app/urls.py"
-  - "app/app/wsgi.py"
-  - "app/app/__init__.py"
-  - "app/app/settings.py"
+  - "ccf/manage.py"
+  - "ccf/app/urls.py"
+  - "ccf/app/wsgi.py"
+  - "ccf/app/__init__.py"
+  - "ccf/app/settings/prod.py"

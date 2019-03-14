@@ -2,7 +2,7 @@ from django.test import Client, SimpleTestCase, TestCase
 from django.urls import reverse
 
 
-class test_accounts_page(TestCase):
+class TestAccountsPage(TestCase):
     def test_getLogin(self):
         client = Client()
         response = client.get("http://127.0.0.1:8000/accounts/login/")
@@ -11,4 +11,4 @@ class test_accounts_page(TestCase):
     def test_landing_redirect(self):
         client = Client()
         response = client.get("http://127.0.0.1:8000", follow=True)
-        SimpleTestCase().assertRedirects(response, "/accounts/login/?next=/")
+        SimpleTestCase().assertRedirects(response, "/accounts/login/")
