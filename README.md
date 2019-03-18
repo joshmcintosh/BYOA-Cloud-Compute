@@ -77,3 +77,8 @@ sudo apt-get install docker-compose
 
 Once these have sucessfully been installed, you
 have all of the docker components needed.
+
+## Production Environment
+Deployment is automatically handled by Travis-ci and Heroku. Due to the nature of this project up-time is *not* guaranteed as the server may be spun-down by the owner when it is not needed.
+Should you need to see something in prod when it is down, please contact the owner of this github repository so that it can be turned back on. 
+The prod website can be found [here](https://seng371p2.herokuapp.com)
