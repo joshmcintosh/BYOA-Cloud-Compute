@@ -110,3 +110,6 @@ staticfiles/
 
 # Pycharm
 .idea/
+
+# Visual Studio
+.vs/
