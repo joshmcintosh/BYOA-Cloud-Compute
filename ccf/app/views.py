@@ -26,7 +26,8 @@ def job_create_view(request):
     """
     if request.method == "POST":
         form = JobCreateForm(request.POST)
-        job = form
+        job = form.save(commit=False)
+        job.user = request.user
         job.save()
         return HttpResponseRedirect(reverse("home"))
     else:
