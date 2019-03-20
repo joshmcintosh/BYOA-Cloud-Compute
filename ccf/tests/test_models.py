@@ -43,7 +43,7 @@ def test_create_job_without_finished_auto_fills_field_to_false():
 
 
 @pytest.mark.django_db()
-def test_create_job_without_finished_auto_fills_field_to_false():
+def test_create_job_without_user_raises_integrity_error():
     job = Job(
         finished=False, dockerfile="this is a dockerfile.", datastore_link="abc.com"
     )
