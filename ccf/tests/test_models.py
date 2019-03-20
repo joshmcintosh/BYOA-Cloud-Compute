@@ -50,3 +50,16 @@ def test_create_job_without_user_raises_integrity_error():
 
     with pytest.raises(django.db.utils.IntegrityError):
         job.save()
+
+
+@pytest.mark.django_db()
+def test_create_job_with_user_equal_zero_raises_integrity_error():
+    job = Job(
+        finished=False,
+        dockerfile="this is a dockerfile.",
+        datastore_link="abc.com",
+        user_id=0,
+    )
+
+    with pytest.raises(django.db.utils.IntegrityError):
+        job.save()
