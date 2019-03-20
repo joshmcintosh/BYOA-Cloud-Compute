@@ -8,7 +8,7 @@ class Job(models.Model):
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     dockerfile = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     # Arbitrary max length for prototype.
     datastore_link = models.CharField(max_length=50)
