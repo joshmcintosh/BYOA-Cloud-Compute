@@ -8,7 +8,7 @@ class Job(models.Model):
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     dockerfile = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Arbitrary max length for prototype.
     datastore_link = models.CharField(max_length=50)
@@ -21,7 +21,7 @@ class Job(models.Model):
         if not self.datastore_link:
             raise IntegrityError("datastore_link value must not be blank.")
 
-        if not self.user_id or self.user_id == 0:
-            raise IntegrityError("user_id could not be found.")
+        if not self.user:
+            raise IntegrityError("user could not be found.")
 
         super(Job, self).save(*args, **kwargs)
