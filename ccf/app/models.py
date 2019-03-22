@@ -21,7 +21,4 @@ class Job(models.Model):
         if not self.datastore_link:
             raise IntegrityError("datastore_link value must not be blank.")
 
-        if not self.user:
-            raise IntegrityError("user could not be found.")
-
         super(Job, self).save(*args, **kwargs)
