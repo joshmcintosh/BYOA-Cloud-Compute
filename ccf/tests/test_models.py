@@ -60,5 +60,5 @@ def test_create_job_without_user_raises_integrity_error(test_user):
         finished=False, dockerfile="this is a dockerfile.", datastore_link="abc.com"
     )
 
-    with pytest.raises(Job.user.RelatedObjectDoesNotExist):
+    with pytest.raises(django.db.utils.IntegrityError):
         job.save()

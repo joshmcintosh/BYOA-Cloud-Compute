@@ -21,4 +21,12 @@ class Job(models.Model):
         if not self.datastore_link:
             raise IntegrityError("datastore_link value must not be blank.")
 
+        # Gross hack to convert an error with app.models.Job.user.RelatedObjectDoesNotExist
+        # to an integrity error. We prefer an integriy error here as a job without a
+        # user is an invalid state.
+        try:
+            _ = self.user
+        except Job.user.RelatedObjectDoesNotExist:
+            raise IntegrityError("user could not be found.")
+
         super(Job, self).save(*args, **kwargs)
