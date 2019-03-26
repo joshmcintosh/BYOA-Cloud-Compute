@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jobs</title>
+</head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 20%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+<h2>Jobs</h2>
+<body>
+    {% if jobs_list %}
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Dockerfile</th>
+            <th>Finished</th>
+        </tr>
+
+        {% for job in jobs_list %}
+        <tr>
+            <td>{{ job.user }}</td>
+            <td>{{ job.dockerfile }}</td>
+            <td>{{ job.finished }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No polls are available.</p>
+    {% endif %}
+
+</body>
+</html>
