@@ -1,7 +1,7 @@
 import django
 import pytest
 from app.models import Job
-from test_util import create_user
+from test_utils import create_user
 
 
 @pytest.mark.django_db()
