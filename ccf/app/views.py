@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
 from django.views import generic
+
+from .forms import JobCreateForm
 
 
 @login_required
@@ -13,6 +16,26 @@ def homepage_view(request):
     to the login page.
     """
     return render(request, "tmp_home.html")
+
+
+@login_required
+def job_create_view(request):
+    """Job Create Page
+
+    Returns to the user the job create page. The user must be logged in.
+    """
+    if request.method == "POST":
+        form = JobCreateForm(request.POST)
+        job = form.save(commit=False)
+        job.user = request.user
+        job.save()
+        return HttpResponseRedirect(reverse("home"))
+    else:
+        form = JobCreateForm()
+
+    context = {"form": form}
+
+    return render(request, "job_create.html", context)
 
 
 class SignUp(generic.CreateView):
