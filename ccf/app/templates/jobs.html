@@ -21,25 +21,46 @@
 </style>
 <h2>Your Jobs</h2>
 <body>
-    {% if jobs_list %}
+    <h3>Current Jobs</h3>
+    {% if jobs_list_unfin %}
     <table>
         <tr>
             <th>Time Started</th>
             <th>Dockerfile</th>
             <th>Datastore Link</th>
-            <th>Finished</th>
         </tr>
-        {% for job in jobs_list %}
+        {% for job in jobs_list_unfin %}
         <tr>
             <td>{{ job.time_started }}</td>
             <td>{{ job.dockerfile }}</td>
             <td>{{ job.datastore_link }}</td>
-            <td>{{ job.finished }}</td>
         </tr>
         {% endfor %}
     </table>
+
     {% else %}
-    <p>No polls are available.</p>
+    <p>No unfinished jobs.</p>
+    {% endif %}
+
+    <h3>Finished Jobs</h3>
+    {% if jobs_list_fin %}
+    <table>
+        <tr>
+            <th>Time Started</th>
+            <th>Dockerfile</th>
+            <th>Datastore Link</th>
+        </tr>
+        {% for job in jobs_list_fin %}
+        <tr>
+            <td>{{ job.time_started }}</td>
+            <td>{{ job.dockerfile }}</td>
+            <td>{{ job.datastore_link }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+    <p>No finished jobs.</p>
     {% endif %}
 
 </body>
