@@ -83,3 +83,22 @@ class TestJobCreatePage(TestCase):
         SimpleTestCase().assertRedirects(
             response, "/accounts/login/?next=/jobs/create/"
         )
+
+
+class TestJobsPage(TestCase):
+    def test_logged_in_get_jobs(self):
+        client = Client()
+        user = User.objects.create_user(username="testuser", password="12345")
+        logged_in = client.login(username="testuser", password="12345")
+
+        response = client.get("/jobs/")
+
+        assert response.status_code == 200
+        self.assertTemplateUsed(response, "jobs.html")
+
+    def test_get_jobs_when_not_logged_in_redirects(self):
+        client = Client()
+
+        response = client.get("/jobs/", follow=True)
+
+        SimpleTestCase().assertRedirects(response, "/accounts/login/?next=/jobs/")
