@@ -10,7 +10,7 @@
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        width: 20%;
+        width: 40%;
     }
 
     td, th {
@@ -19,20 +19,21 @@
         padding: 8px;
     }
 </style>
-<h2>Jobs</h2>
+<h2>Your Jobs</h2>
 <body>
     {% if jobs_list %}
     <table>
         <tr>
-            <th>User</th>
+            <th>Time Started</th>
             <th>Dockerfile</th>
+            <th>Datastore Link</th>
             <th>Finished</th>
         </tr>
-
         {% for job in jobs_list %}
         <tr>
-            <td>{{ job.user }}</td>
+            <td>{{ job.time_started }}</td>
             <td>{{ job.dockerfile }}</td>
+            <td>{{ job.datastore_link }}</td>
             <td>{{ job.finished }}</td>
         </tr>
         {% endfor %}
