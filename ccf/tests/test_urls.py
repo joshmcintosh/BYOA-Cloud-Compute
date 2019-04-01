@@ -120,8 +120,6 @@ class TestJobsPage(TestCase):
         uj = response.context["unfinished_jobs"][0]
         fj = response.context["finished_jobs"][0]
 
-        print(uj.dockerfile, uj.dockerfile == ("some_docker", "some_link"))
-
         assert (uj.dockerfile, uj.datastore_link, uj.finished) == (
             "some_docker",
             "some_link",
