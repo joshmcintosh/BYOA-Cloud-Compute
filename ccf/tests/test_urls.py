@@ -1,4 +1,7 @@
+from unittest.mock import Mock, patch
+
 import pytest
+import test_utils
 from django.contrib.auth.models import User
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import reverse
@@ -102,3 +105,30 @@ class TestJobsPage(TestCase):
         response = client.get("/jobs/", follow=True)
 
         SimpleTestCase().assertRedirects(response, "/accounts/login/?next=/jobs/")
+
+    @pytest.mark.django_db()
+    def test_job_lists_are_correct(self):
+        client = Client()
+        test_user = test_utils.create_user("test_user", "test_password")
+        logged_in = client.force_login(test_user)
+        job = test_utils.create_job(test_user, "some_docker", "some_link")
+        job = test_utils.create_job(
+            test_user, "other_docker", "other_link", finished=True
+        )
+
+        response = client.get("/jobs/")
+        uj = response.context["unfinished_jobs"][0]
+        fj = response.context["finished_jobs"][0]
+
+        print(uj.dockerfile, uj.dockerfile == ("some_docker", "some_link"))
+
+        assert (uj.dockerfile, uj.datastore_link, uj.finished) == (
+            "some_docker",
+            "some_link",
+            False,
+        )
+        assert (fj.dockerfile, fj.datastore_link, fj.finished) == (
+            "other_docker",
+            "other_link",
+            True,
+        )

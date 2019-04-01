@@ -45,9 +45,9 @@ def jobs_view(request):
 
     Returns to the user all of their jobs and their status.
     """
-    jobs_list_unfin = Job.objects.filter(user=request.user).filter(finished=False)
-    jobs_list_fin = Job.objects.filter(user=request.user).filter(finished=True)
-    context = {"jobs_list_unfin": jobs_list_unfin, "jobs_list_fin": jobs_list_fin}
+    unfinished_jobs = Job.objects.filter(user=request.user).filter(finished=False)
+    finished_jobs = Job.objects.filter(user=request.user).filter(finished=True)
+    context = {"unfinished_jobs": unfinished_jobs, "finished_jobs": finished_jobs}
     return render(request, "jobs.html", context)
 
 
