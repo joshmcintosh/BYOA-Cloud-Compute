@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="banner">
+        {% if user.is_authenticated %}
+        <p>Welcome {{ user.username }}</p>
+        <p><a href="{% url "change_password" %}">Change password</a></p>
+        {% else %}
+        <p><a href="/accounts/login">Log in</a></p>
+        <p><a href="{% url "signup" %}">Sign up</a></p>
+        {% endif %}
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
