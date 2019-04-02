@@ -10,21 +10,7 @@ from django.views import generic
 from .forms import JobCreateForm
 
 
-def change_password(request):
-    if request.method == "POST":
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, "Your password was successfully updated!")
-            return redirect("change_password")
-        else:
-            messages.error(request, "Please correct the error below.")
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, "change_password.html", {"form": form})
-
-
+@login_required
 def homepage_view(request):
     """Homepage to Login Redirect
 
@@ -52,6 +38,22 @@ def job_create_view(request):
     context = {"form": form}
 
     return render(request, "job_create.html", context)
+
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Your password was successfully updated!")
+            return redirect("home")
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "change_password.html", {"form": form})
 
 
 class SignUp(generic.CreateView):

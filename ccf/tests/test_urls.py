@@ -1,4 +1,5 @@
 import pytest
+import test_utils
 from django.contrib.auth.models import User
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import reverse
@@ -23,7 +24,7 @@ class TestAccountsPage(TestCase):
         response = client.get("http://127.0.0.1:8000", follow=True)
 
         self.assertTrue(logged_in)
-        self.assertTemplateUsed(response, "tmp_home.html")
+        self.assertTemplateUsed(response, "home.html")
 
 
 class TestSignupPage(TestCase):
@@ -82,4 +83,23 @@ class TestJobCreatePage(TestCase):
 
         SimpleTestCase().assertRedirects(
             response, "/accounts/login/?next=/jobs/create/"
+        )
+
+
+class TestChangePasswordPage(TestCase):
+    def test_get_change_password(self):
+        client = Client()
+        user = test_utils.create_user("testuser", "testpassword")
+        logged_in = client.force_login(user)
+        response = client.get(reverse("change_password"), follow=True)
+
+        assert response.status_code == 200
+        self.assertTemplateUsed(response, "change_password.html")
+
+    def test_change_password_not_logged_in_redirects(self):
+        client = Client()
+        response = client.get(reverse("change_password"), follow=True)
+
+        SimpleTestCase().assertRedirects(
+            response, "/accounts/login/?next=/accounts/changepassword/"
         )
