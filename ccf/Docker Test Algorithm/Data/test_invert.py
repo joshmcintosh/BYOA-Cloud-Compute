@@ -6,6 +6,6 @@ import invert
 
 
 def test_createImage():
-    invert.process(["testImage.jpg"])
-    assert os.path.isfile("fixed.jpeg")
-    os.remove("fixed.jpeg")
+    invert.process(["ccf/Docker Test Algorithm/Data/testImage.jpg"])
+    assert os.path.isfile("ccf/Docker Test Algorithm/Data/fixed.jpeg")
+    os.remove("ccf/Docker Test Algorithm/Data/fixed.jpeg")

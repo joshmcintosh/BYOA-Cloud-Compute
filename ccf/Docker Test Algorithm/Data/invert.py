@@ -8,7 +8,7 @@ def process(name):
     print(name)
     image = Image.open(str(name[0]))
     out = PIL.ImageOps.invert(image)
-    out.save("fixed.jpeg")
+    out.save("ccf/Docker Test Algorithm/Data/fixed.jpeg")
 
 
 def main():
