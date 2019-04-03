@@ -1,5 +1,3 @@
-from unittest.mock import Mock, patch
-
 import pytest
 import test_utils
 from django.contrib.auth.models import User
@@ -106,7 +104,6 @@ class TestJobsPage(TestCase):
 
         SimpleTestCase().assertRedirects(response, "/accounts/login/?next=/jobs/")
 
-    @pytest.mark.django_db()
     def test_job_lists_are_correct(self):
         client = Client()
         test_user = test_utils.create_user("test_user", "test_password")
@@ -130,3 +127,18 @@ class TestJobsPage(TestCase):
             "other_link",
             True,
         )
+
+    def test_job_lists_only_show_current_user(self):
+        client = Client()
+        current_user = test_utils.create_user("current_user", "test_password")
+        other_user = test_utils.create_user("other_user", "test_password")
+        logged_in = client.force_login(current_user)
+
+        job1 = test_utils.create_job(current_user, "some_docker", "some_link")
+        job2 = test_utils.create_job(other_user, "other_docker", "other_link")
+
+        response = client.get("/jobs/")
+        job_list = list(response.context["unfinished_jobs"])
+
+        # Assert there is only the current user's job object in the list
+        assert len(job_list) == 1
