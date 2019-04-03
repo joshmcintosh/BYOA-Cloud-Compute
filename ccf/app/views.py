@@ -10,7 +10,6 @@ from django.views import generic
 from .forms import JobCreateForm
 
 
-@login_required
 def homepage_view(request):
     """Homepage to Login Redirect
 
