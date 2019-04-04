@@ -1,11 +1,11 @@
+from app.forms import JobCreateForm
+from app.models import Job
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
 from django.views import generic
-
-from .forms import JobCreateForm
 
 
 @login_required
@@ -36,6 +36,18 @@ def job_create_view(request):
     context = {"form": form}
 
     return render(request, "job_create.html", context)
+
+
+@login_required
+def jobs_view(request):
+    """Jobs Page
+
+    Returns to the user all of their jobs and their status.
+    """
+    unfinished_jobs = Job.objects.filter(user=request.user).filter(finished=False)
+    finished_jobs = Job.objects.filter(user=request.user).filter(finished=True)
+    context = {"unfinished_jobs": unfinished_jobs, "finished_jobs": finished_jobs}
+    return render(request, "jobs.html", context)
 
 
 class SignUp(generic.CreateView):
