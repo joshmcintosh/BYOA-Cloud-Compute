@@ -6,3 +6,4 @@ codecov
 seed-isort-config
 isort
 pytest-django
+pillow
