@@ -10,4 +10,4 @@ ignore:
   - "ccf/app/wsgi.py"
   - "ccf/app/__init__.py"
   - "ccf/app/settings/prod.py"
-  - "ccf/Docker Test Algorithm/invert.py"
+  - "ccf/DockerTestAlgorithm/invert.py"
