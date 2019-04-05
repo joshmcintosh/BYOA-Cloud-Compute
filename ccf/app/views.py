@@ -1,3 +1,5 @@
+from app.forms import JobCreateForm
+from app.models import Job
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -6,8 +8,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, reverse
 from django.urls import reverse_lazy
 from django.views import generic
-
-from .forms import JobCreateForm
 
 
 def homepage_view(request):
@@ -30,13 +30,25 @@ def job_create_view(request):
         job = form.save(commit=False)
         job.user = request.user
         job.save()
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("jobs"))
     else:
         form = JobCreateForm()
 
     context = {"form": form}
 
     return render(request, "job_create.html", context)
+
+
+@login_required
+def jobs_view(request):
+    """Jobs Page
+
+    Returns to the user all of their jobs and their status.
+    """
+    unfinished_jobs = Job.objects.filter(user=request.user).filter(finished=False)
+    finished_jobs = Job.objects.filter(user=request.user).filter(finished=True)
+    context = {"unfinished_jobs": unfinished_jobs, "finished_jobs": finished_jobs}
+    return render(request, "jobs.html", context)
 
 
 @login_required

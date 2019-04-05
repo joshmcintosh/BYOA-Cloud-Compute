@@ -18,7 +18,7 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="navbar-item">
-                    <a href="/">My Jobs</a>
+                    <a href="{% url 'jobs' %}">My Jobs</a>
                 </li>
                 <li class="navbar-item">
                     <a href="{% url 'job_create' %}">Create Job</a>

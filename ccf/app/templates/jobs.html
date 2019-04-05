@@ -1,0 +1,46 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+    <h3>Current Jobs</h3>
+        {% if unfinished_jobs %}
+    <table>
+        <tr>
+            <th>Time Started</th>
+            <th>Dockerfile</th>
+            <th>Datastore Link</th>
+        </tr>
+        {% for job in unfinished_jobs %}
+        <tr>
+            <td>{{ job.time_started }}</td>
+            <td>{{ job.dockerfile }}</td>
+            <td>{{ job.datastore_link }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        {% else %}
+    <p>No unfinished jobs.</p>
+        {% endif %}
+
+    <h3>Finished Jobs</h3>
+        {% if finished_jobs %}
+    <table>
+        <tr>
+            <th>Time Started</th>
+            <th>Dockerfile</th>
+            <th>Datastore Link</th>
+        </tr>
+        {% for job in finished_jobs %}
+        <tr>
+            <td>{{ job.time_started }}</td>
+            <td>{{ job.dockerfile }}</td>
+            <td>{{ job.datastore_link }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        {% else %}
+    <p>No finished jobs.</p>
+        {% endif %}
+{% endblock %}
+
