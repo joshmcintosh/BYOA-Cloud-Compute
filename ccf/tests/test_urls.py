@@ -59,7 +59,7 @@ class TestJobCreatePage(TestCase):
             "/jobs/create/", {"dockerfile": "testdocker", "datastore_link": "testlink"}
         )
 
-        SimpleTestCase().assertRedirects(response, "/")
+        SimpleTestCase().assertRedirects(response, "/jobs/")
 
     def test_get_job_when_not_logged_in_redirects(self):
         client = Client()
