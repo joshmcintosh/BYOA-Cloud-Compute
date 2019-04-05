@@ -6,7 +6,9 @@ import invert
 
 
 def test_createImage():
-   # invert.process(["~/ccf/DockerTestAlgorithm/Data/testImage.jpg"])
-    print(os.getcwd() + "Dir")
-    assert os.path.isfile("fixed.jpeg")
-   # os.remove("fixed.jpeg")
+    pathname = [os.getcwd() + "/ccf/DockerTestAlgorithm/Data/testImage.jpg"]
+    invert.process(pathname)
+    assert os.path.isfile(os.getcwd() + "/ccf/DockerTestAlgorithm/Data/fixed.jpeg")
+
+
+# os.remove("fixed.jpeg")

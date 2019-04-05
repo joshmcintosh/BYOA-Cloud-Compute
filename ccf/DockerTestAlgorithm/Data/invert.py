@@ -1,3 +1,4 @@
+import os
 import sys
 
 import PIL.ImageOps
@@ -8,7 +9,7 @@ def process(name):
     image = Image.open(str(name[0]))
     out = PIL.ImageOps.invert(image)
     out.show()
-    out.save("fixed.jpg")
+    out.save(os.getcwd() + "/ccf/DockerTestAlgorithm/Data/fixed.jpg")
 
 
 def main():
