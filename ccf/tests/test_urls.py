@@ -1,6 +1,5 @@
 import pytest
 import test_utils
-from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.test import Client, SimpleTestCase, TestCase
 from django.urls import reverse
@@ -159,18 +158,29 @@ class TestChangePasswordPage(TestCase):
         )
 
     def test_change_password_changes_password(self):
-        # from django.contrib.auth.forms import PasswordChangeForm
-        client = Client()
+        client = Client(enforce_csrf_checks=True)
         user = test_utils.create_user("testuser", "testpassword")
-        client.force_login(user)
+        logged_in = client.login(username="testuser", password="testpassword")
 
-        # TODO: Find a way to create the POST request for change password
-        # No documentation found on what the POST request looks like, and it is currently too time
-        # consuming to research a solution
+        # Get the csrf token from the get response
+        r = client.get(reverse("change_password"))
+        token = r.context[0]["csrf_token"]
 
-        # logout(request)
-        old_login = False  # client.login(username="testuser", password="testpassword")
-        login = True  # client.login(username="testuser", password="newpassword")
+        # Change password POST request
+        response = client.post(
+            reverse("change_password"),
+            {
+                "csrfmiddlewaretoken": token,
+                "old_password": "testpassword",
+                "new_password1": "newtestpassword",
+                "new_password2": "newtestpassword",
+            },
+        )
+
+        # Logout the client and check the old password does not work and the new one does
+        client.logout()
+        old_login = client.login(username="testuser", password="testpassword")
+        logged_in = client.login(username="testuser", password="newtestpassword")
 
         assert not old_login
-        assert login
+        assert logged_in
