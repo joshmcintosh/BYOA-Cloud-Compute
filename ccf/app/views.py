@@ -1,21 +1,22 @@
 from app.forms import JobCreateForm
 from app.models import Job
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse
+from django.shortcuts import redirect, render, reverse
 from django.urls import reverse_lazy
 from django.views import generic
 
 
-@login_required
 def homepage_view(request):
     """Homepage to Login Redirect
 
     Returns to the user the homepage template if they are logged in, otherwise redirects them
     to the login page.
     """
-    return render(request, "tmp_home.html")
+    return render(request, "home.html")
 
 
 @login_required
@@ -29,7 +30,7 @@ def job_create_view(request):
         job = form.save(commit=False)
         job.user = request.user
         job.save()
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("jobs"))
     else:
         form = JobCreateForm()
 
@@ -48,6 +49,19 @@ def jobs_view(request):
     finished_jobs = Job.objects.filter(user=request.user).filter(finished=True)
     context = {"unfinished_jobs": unfinished_jobs, "finished_jobs": finished_jobs}
     return render(request, "jobs.html", context)
+
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect("home")
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "change_password.html", {"form": form})
 
 
 class SignUp(generic.CreateView):

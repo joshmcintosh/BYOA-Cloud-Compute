@@ -11,11 +11,6 @@ class TestAccountsPage(TestCase):
         response = self.client.get("http://127.0.0.1:8000/accounts/login/")
         assert response.status_code == 200
 
-    def test_landing_redirect(self):
-        client = Client()
-        response = self.client.get("http://127.0.0.1:8000", follow=True)
-        SimpleTestCase().assertRedirects(response, "/accounts/login/?next=/")
-
     def test_logged_in_user_directs_to_homepage(self):
         client = Client()
         user = User.objects.create_user(username="testuser", password="12345")
@@ -24,7 +19,7 @@ class TestAccountsPage(TestCase):
         response = client.get("http://127.0.0.1:8000", follow=True)
 
         self.assertTrue(logged_in)
-        self.assertTemplateUsed(response, "tmp_home.html")
+        self.assertTemplateUsed(response, "home.html")
 
 
 class TestSignupPage(TestCase):
@@ -63,7 +58,7 @@ class TestJobCreatePage(TestCase):
             "/jobs/create/", {"dockerfile": "testdocker", "datastore_link": "testlink"}
         )
 
-        SimpleTestCase().assertRedirects(response, "/")
+        SimpleTestCase().assertRedirects(response, "/jobs/")
 
     def test_get_job_when_not_logged_in_redirects(self):
         client = Client()
@@ -142,3 +137,74 @@ class TestJobsPage(TestCase):
 
         # Assert there is only the current user's job object in the list
         assert len(job_list) == 1
+
+
+class TestChangePasswordPage(TestCase):
+    def test_get_change_password(self):
+        client = Client()
+        user = test_utils.create_user("testuser", "testpassword")
+        logged_in = client.force_login(user)
+        response = client.get(reverse("change_password"), follow=True)
+
+        assert response.status_code == 200
+        self.assertTemplateUsed(response, "change_password.html")
+
+    def test_change_password_not_logged_in_redirects(self):
+        client = Client()
+        response = client.get(reverse("change_password"), follow=True)
+
+        SimpleTestCase().assertRedirects(
+            response, "/accounts/login/?next=/accounts/changepassword/"
+        )
+
+    def test_change_password_changes_password(self):
+        client = Client(enforce_csrf_checks=True)
+        user = test_utils.create_user("testuser", "testpassword")
+        logged_in = client.login(username="testuser", password="testpassword")
+
+        # Get the csrf token from the get response
+        r = client.get(reverse("change_password"))
+        token = r.context[0]["csrf_token"]
+
+        # Change password POST request
+        response = client.post(
+            reverse("change_password"),
+            {
+                "csrfmiddlewaretoken": token,
+                "old_password": "testpassword",
+                "new_password1": "newtestpassword",
+                "new_password2": "newtestpassword",
+            },
+            follow=True,
+        )
+
+        # Logout the client and check the old password does not work and the new one does
+        client.logout()
+        old_login = client.login(username="testuser", password="testpassword")
+        logged_in = client.login(username="testuser", password="newtestpassword")
+
+        SimpleTestCase().assertRedirects(response, "/")
+        assert not old_login
+        assert logged_in
+
+    def test_change_password_form_without_token_fails(self):
+        client = Client(enforce_csrf_checks=True)
+        user = test_utils.create_user("testuser", "testpassword")
+        logged_in = client.login(username="testuser", password="testpassword")
+
+        response = client.post(
+            reverse("change_password"),
+            {
+                "old_password": "testpassword",
+                "new_password1": "newtestpassword",
+                "new_password2": "newtestpassword",
+            },
+        )
+
+        client.logout()
+        logged_in = client.login(username="testuser", password="newtestpassword")
+        old_login = client.login(username="testuser", password="testpassword")
+
+        assert response.status_code == 403
+        assert old_login
+        assert not logged_in

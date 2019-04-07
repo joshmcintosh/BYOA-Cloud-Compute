@@ -1,35 +1,15 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Jobs</title>
-</head>
-<style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 40%;
-    }
+﻿{% extends "base.html" %}
 
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-</style>
-<h2>Your Jobs</h2>
-<body>
+{% block content %}
     <h3>Current Jobs</h3>
-    {% if jobs_list_unfin %}
+        {% if unfinished_jobs %}
     <table>
         <tr>
             <th>Time Started</th>
             <th>Dockerfile</th>
             <th>Datastore Link</th>
         </tr>
-        {% for job in jobs_list_unfin %}
+        {% for job in unfinished_jobs %}
         <tr>
             <td>{{ job.time_started }}</td>
             <td>{{ job.dockerfile }}</td>
@@ -38,19 +18,19 @@
         {% endfor %}
     </table>
 
-    {% else %}
+        {% else %}
     <p>No unfinished jobs.</p>
-    {% endif %}
+        {% endif %}
 
     <h3>Finished Jobs</h3>
-    {% if jobs_list_fin %}
+        {% if finished_jobs %}
     <table>
         <tr>
             <th>Time Started</th>
             <th>Dockerfile</th>
             <th>Datastore Link</th>
         </tr>
-        {% for job in jobs_list_fin %}
+        {% for job in finished_jobs %}
         <tr>
             <td>{{ job.time_started }}</td>
             <td>{{ job.dockerfile }}</td>
@@ -59,9 +39,8 @@
         {% endfor %}
     </table>
 
-    {% else %}
+        {% else %}
     <p>No finished jobs.</p>
-    {% endif %}
+        {% endif %}
+{% endblock %}
 
-</body>
-</html>
