@@ -84,7 +84,7 @@ def job_create_view(request):
                 )
             )
         outDir = watch_callbacks(callbacks, timeout)
-        storeImages(outDir, job.jobNum)
+        storeImages(outDir, job)
         job.finished = True
         job.save()
 
@@ -195,11 +195,11 @@ def watch_callbacks(callbacks, timeout):
     return results[0] + "/outputs"
 
 
-def storeImages(outDir, jobNum):
+def storeImages(outDir, Parentjob):
     job = FinishedJob()
     for entry in os.listdir(outDir):
         job = FinishedJob()
-        job.jobNum = jobNum
+        job.jobNum = Parentjob.jobNum
         with open(outDir + "/" + entry, "rb") as fp:
             job.image = fp.read()
         job.save()
