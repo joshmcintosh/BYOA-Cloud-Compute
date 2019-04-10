@@ -135,7 +135,7 @@ def start_job(config: str, data_links: list):
 
     for data_index, data_link in enumerate(data_links):
         execute_command = (
-            commands[-1] + f" {data_link}" + f" outputs/{data_links}.{name}"
+            commands[-1] + f" {data_link}" + f" outputs/{data_index}.{name}"
         )
         print(f"running: {execute_command} with {execute_command.split(' ')}")
         subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
@@ -177,7 +177,7 @@ def lex_config(config: str):
         elif config_tokens[0] == "INSTALL_REQUIREMENTS":
             commands.append(f"pip install -r .process/{name}/requirements.txt")
         elif config_tokens[0] == "PYTHON_RUN":
-            commands.append(f"python .process/{name}/{' '.join(config_tokens[1:])}")
+            commands.append(f"python {' '.join(config_tokens[1:])}")
             # commands.append(f"{' '.join(config_tokens[1:])}")
 
     return commands
