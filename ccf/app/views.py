@@ -32,12 +32,16 @@ def job_create_view(request):
         job.user = request.user
         job.save()
 
+        
+        start_job()
+
+
         # This is a little hack. Sorry.
         # Create an event pool to spawn a thread to start working on their job.
         # As this is a prototype system, gloss over the
         # complex stuff of figuring out how many processes there should be.
         # Assuming 5 is good. TODO: do this better.
-        event_pool = ThreadPool(processes=5)
+        event_pool = ThreadPool(processes=2)
 
         return HttpResponseRedirect(reverse("jobs"))
     else:
