@@ -190,7 +190,7 @@ def watch_callbacks(callbacks, timeout):
     results = []
     for callback in callbacks:
         results.append(callback.get(timeout))
-    if len(results < 1):
+    if len(results) < 1:
         return None
     return results[0] + "/outputs"
 
