@@ -35,7 +35,7 @@ class Job(models.Model):
 
 class FinishedJob(models.Model):
 
-    jobNum = models.ForeignKey(Job, on_delete=models.CASCADE)
+    jobNum = models.IntegerField(default=0)
     image = models.ImageField(upload_to="Images/")
 
     def save(self, *args, **kwargs):
