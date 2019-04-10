@@ -18,9 +18,12 @@ install:
 - pip install -r requirements-dev.txt
 
 script:
-- pytest ccf --cov=ccf
+  # TODO: Some of the unit tests create files that pull from another github repo.
+  # This NEEEDS to be fixed, but cannot be fixed in time for the deadline, so
+  # inspections are now being done before testing to temporarily resolve the issue.
 - black ccf --check --exclude=secret_key.py
 - isort -rc --check .
+- pytest ccf --cov=ccf
 - docker build -t ross3834/seng371p2 .
 - docker tag ross3834/seng371p2 registry.heroku.com/$HEROKU_APP_NAME/web
 
