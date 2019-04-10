@@ -1,6 +1,7 @@
 import importlib
 import os
 import shutil
+import subprocess
 from multiprocessing.pool import ThreadPool
 
 from app.data_fetch import divide_list, get_STAC_items_from_catalog
@@ -50,6 +51,20 @@ def job_create_view(request):
             "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
         )
 
+        commands = lex_config(config)
+        name = commands[0]
+        commands = commands[1:]
+
+        if not os.path.exists(f".process/{name}/.git"):
+            for command in commands[:-1]:
+                # TODO: FIx everything about this.
+                print(f"running: {command} with {command.split(' ')}")
+                subprocess.run(command.split(" "))
+            try:
+                os.makedirs(f".process/{name}/outputs")
+            except:
+                pass
+
         # This is a little hack. Sorry.
         # Create an event pool to spawn a thread to start working on their job.
         # As this is a prototype system, gloss over the
@@ -60,11 +75,13 @@ def job_create_view(request):
         items = get_STAC_items_from_catalog(catalog)
         divided_items = divide_list(items, patitions)
 
-        event_pool = ThreadPool(processes=2)
+        event_pool = ThreadPool(processes=patitions)
         callbacks = []
         for i in range(patitions):
             callbacks.append(
-                event_pool.apply_async(start_job, (config, divided_items[i], i))
+                event_pool.apply_async(
+                    start_job, (commands[-1], divided_items[i], name, i)
+                )
             )
         watch_callbacks(callbacks, timeout)
 
@@ -105,7 +122,7 @@ def change_password(request):
     return render(request, "change_password.html", {"form": form})
 
 
-def start_job(config: str, data_links: list, thread_number: int):
+def start_job(command_string: str, data_links: list, name: str, thread_number: int):
     """ Start running each job.
 
         The script being called *must* contain a "run_process" method.
@@ -117,25 +134,11 @@ def start_job(config: str, data_links: list, thread_number: int):
         datastore link.
     """
 
-    import subprocess
-
-    commands = lex_config(config)
-    name = commands[0]
-    commands = commands[1:]
-
-    if not os.path.exists(f".process/{name}/.git"):
-        for command in commands[:-1]:
-            # TODO: FIx everything about this.
-            print(f"running: {command} with {command.split(' ')}")
-            subprocess.run(command.split(" "))
-        try:
-            os.makedirs(f".process/{name}/outputs")
-        except:
-            pass
-
     for data_index, data_link in enumerate(data_links):
         execute_command = (
-            commands[-1] + f" {data_link}" + f" outputs/{data_index}.{name}.{thread_number}"
+            command_string
+            + f" {data_link}"
+            + f" outputs/{name}.thread{thread_number}.item{data_index}"
         )
         print(f"running: {execute_command} with {execute_command.split(' ')}")
         subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
