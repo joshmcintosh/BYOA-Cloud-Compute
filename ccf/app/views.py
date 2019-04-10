@@ -64,7 +64,7 @@ def job_create_view(request):
         callbacks = []
         for i in range(patitions):
             callbacks.append(
-                event_pool.apply_async(start_job, (config, divided_items[i]))
+                event_pool.apply_async(start_job, (config, divided_items[i], i))
             )
         watch_callbacks(callbacks, timeout)
 
@@ -105,7 +105,7 @@ def change_password(request):
     return render(request, "change_password.html", {"form": form})
 
 
-def start_job(config: str, data_links: list):
+def start_job(config: str, data_links: list, thread_number: int):
     """ Start running each job.
 
         The script being called *must* contain a "run_process" method.
@@ -135,7 +135,7 @@ def start_job(config: str, data_links: list):
 
     for data_index, data_link in enumerate(data_links):
         execute_command = (
-            commands[-1] + f" {data_link}" + f" outputs/{data_index}.{name}"
+            commands[-1] + f" {data_link}" + f" outputs/{data_index}.{name}.{thread_number}"
         )
         print(f"running: {execute_command} with {execute_command.split(' ')}")
         subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
