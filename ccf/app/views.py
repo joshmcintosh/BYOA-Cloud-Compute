@@ -35,8 +35,8 @@ def job_create_view(request):
         job.save()
 
         # TODO: get link to catalog and dockerfile
-        catalog = ""
-        config = (
+        config = "NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py"
+        catalog = (
             "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
         )
 
@@ -136,7 +136,10 @@ def lex_config(config: str):
     commands = []
     name = config_commands[0].replace("NAME ", "").strip()
     config_commands = config_commands[1:]
-    os.makedirs(f".process/{name}")
+    try:
+        os.makedirs(f".process/{name}")
+    except:
+        print("error occurred trying to make subfolder. something might go wrong.")
 
     for config_command in config_commands:
 
@@ -145,7 +148,7 @@ def lex_config(config: str):
         if config_tokens[0] == "GIT_CLONE":
             commands.append(f"git clone {config_tokens[1]} .process/{name} -q")
         elif config_tokens[0] == "INSTALL_REQUIREMENTS":
-            commands.append("pip install -r requirements.txt")
+            commands.append(f"pip install -r .process/{name}/requirements.txt")
         elif config_tokens[0] == "PYTHON_RUN":
             commands.append(f"python .process/{name}/{' '.join(config_tokens[1:])}")
 
