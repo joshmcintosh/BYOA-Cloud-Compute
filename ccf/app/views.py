@@ -14,6 +14,12 @@ from django.shortcuts import redirect, render, reverse
 from django.urls import reverse_lazy
 from django.views import generic
 
+### TODO: Cleanup this file.
+# This file was made an absolute nightmare due to a deadline, so sacrifices to
+# both code quality and functionality are made.
+# As of right now, the entire functionality for running a user's code needs to
+# be re-written to be more safe.
+
 
 def homepage_view(request):
     """Homepage to Login Redirect
@@ -117,24 +123,25 @@ def start_job(config: str, data_links: list):
     name = commands[0]
     commands = commands[1:]
 
-    for command in commands[:-1]:
-        # TODO: FIx everything about this.
-        print(f"running: {command} with {command.split(' ')}")
-        subprocess.run(command.split(" "))
+    if not os.path.exists(f".process/{name}/.git"):
+        for command in commands[:-1]:
+            # TODO: FIx everything about this.
+            print(f"running: {command} with {command.split(' ')}")
+            subprocess.run(command.split(" "))
+        try:
+            os.makedirs(f".process/{name}/outputs")
+        except:
+            pass
 
-    for data_link in data_links:
-        execute_command = commands[-1] + f" {data_link}"
+    for data_index, data_link in enumerate(data_links):
+        execute_command = (
+            commands[-1] + f" {data_link}" + f" outputs/{data_links}.{name}"
+        )
         print(f"running: {execute_command} with {execute_command.split(' ')}")
         subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
-        # script = execute_command[1
-
-        # importlib.import_module("run_process", f".process.{name}")
 
     # clean up... ie make the caller cleanup.
     return f".procces/{name}"
-
-
-#    shutil.rmtree(f".process/{name}/")
 
 
 def lex_config(config: str):
@@ -160,13 +167,6 @@ def lex_config(config: str):
     name = config_commands[0].replace("NAME ", "").strip()
     config_commands = config_commands[1:]
     commands.append(name)
-
-    try:
-        # Remove the directory
-        # shutil.rmtree(f".process/{name}/")
-        os.makedirs(f".process/{name}")
-    except:
-        print("error occurred trying to make subfolder. something might go wrong.")
 
     for config_command in config_commands:
 
