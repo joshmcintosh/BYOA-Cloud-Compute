@@ -55,15 +55,7 @@ def job_create_view(request):
         name = commands[0]
         commands = commands[1:]
 
-        if not os.path.exists(f".process/{name}/.git"):
-            for command in commands[:-1]:
-                # TODO: FIx everything about this.
-                print(f"running: {command} with {command.split(' ')}")
-                subprocess.run(command.split(" "))
-            try:
-                os.makedirs(f".process/{name}/outputs")
-            except:
-                pass
+        run_setup(commands, name)
 
         # This is a little hack. Sorry.
         # Create an event pool to spawn a thread to start working on their job.
@@ -200,8 +192,20 @@ def storeImages(outDir, Parentjob):
     for entry in os.listdir(outDir):
         job = FinishedJob()
         job.jobNum = Parentjob.jobNum
-        job.image = outDir+"/"+entry
+        job.image = outDir + "/" + entry
         job.save()
+
+
+def run_setup(commands, name):
+    if not os.path.exists(f".process/{name}/.git"):
+        for command in commands[:-1]:
+            # TODO: FIx everything about this.
+            print(f"running: {command} with {command.split(' ')}")
+            subprocess.run(command.split(" "))
+        try:
+            os.makedirs(f".process/{name}/outputs")
+        except:
+            pass
 
 
 class SignUp(generic.CreateView):

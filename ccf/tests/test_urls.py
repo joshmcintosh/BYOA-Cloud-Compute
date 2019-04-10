@@ -1,3 +1,5 @@
+from unittest.mock import Mock, patch
+
 import pytest
 import test_utils
 from django.contrib.auth.models import User
@@ -38,6 +40,8 @@ class TestSignupPage(TestCase):
         self.assertTemplateUsed(response, "signup.html")
 
 
+@patch("app.views.run_setup", Mock())
+@patch("app.views.start_job", Mock())
 class TestJobCreatePage(TestCase):
     def test_logged_in_get_job_create(self):
         client = Client()
