@@ -5,7 +5,7 @@ from django.db.utils import IntegrityError
 
 
 class Job(models.Model):
-    jobNum = models.AutoField(primary_key = True)
+    jobNum = models.AutoField(primary_key=True)
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     dockerfile = models.TextField()
@@ -32,10 +32,11 @@ class Job(models.Model):
 
         super(Job, self).save(*args, **kwargs)
 
+
 class FinishedJob(models.Model):
 
     jobNum = models.ForeignKey(Job, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='Images/')
+    image = models.ImageField(upload_to="Images/")
 
     def save(self, *args, **kwargs):
         try:
