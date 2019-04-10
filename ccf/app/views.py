@@ -6,7 +6,7 @@ from multiprocessing.pool import ThreadPool
 
 from app.data_fetch import divide_list, get_STAC_items_from_catalog
 from app.forms import JobCreateForm
-from app.models import Job
+from app.models import FinishedJob, Job
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
@@ -83,8 +83,8 @@ def job_create_view(request):
                     start_job, (commands[-1], divided_items[i], name, i)
                 )
             )
-        watch_callbacks(callbacks, timeout)
-
+        outDir = watch_callbacks(callbacks, timeout)
+        storeImages(outDir, job.jobNum)
         job.finished = True
         job.save()
 
@@ -191,6 +191,16 @@ def watch_callbacks(callbacks, timeout):
     for callback in callbacks:
         results.append(callback.get(timeout))
     return results
+
+
+def storeImages(outDir, jobNum):
+    job = FinishedJob()
+    for entry in os.listdir(outDir + "/outputs"):
+        job = FinishedJob()
+        job.jobNum = jobNum
+        with open(outDir + "/outputs/" + entry, "rb") as fp:
+            job.image = fp.read()
+        job.save()
 
 
 class SignUp(generic.CreateView):
