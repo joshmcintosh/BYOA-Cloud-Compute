@@ -54,7 +54,7 @@ def job_create_view(request):
         callbacks = []
         for i in range(patitions):
             callbacks.append(
-                event_pool.apply_async(start_job(), (config, divided_items[i]))
+                event_pool.apply_async(start_job, (config, divided_items[i]))
             )
         watch_callbacks(callbacks, timeout)
 
@@ -110,6 +110,8 @@ def start_job(config: str, data_links: list):
         execute_command = commands[-1] + f" {data_link}"
         print(f"running: {execute_command} with {execute_command.split(' ')}")
         subprocess.call(execute_command.split(" "))
+
+    # clean up
 
 
 def lex_config(config: str):
