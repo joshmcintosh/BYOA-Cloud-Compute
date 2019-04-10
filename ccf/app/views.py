@@ -1,9 +1,10 @@
+import base64
 import importlib
 import os
 import shutil
 import subprocess
 from multiprocessing.pool import ThreadPool
-import base64
+
 from app.data_fetch import divide_list, get_STAC_items_from_catalog
 from app.forms import JobCreateForm
 from app.models import FinishedJob, Job
@@ -192,8 +193,8 @@ def storeImages(outDir, Parentjob):
     for entry in os.listdir(outDir):
         job = FinishedJob()
         job.jobNum = Parentjob.jobNum
-        enco =''
-        with open(outDir+"/"+entry,'rb') as fp:
+        enco = ""
+        with open(outDir + "/" + entry, "rb") as fp:
             enco = base64.b64encode(fp.read())
         job.image = enco
         job.save()
