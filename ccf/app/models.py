@@ -5,7 +5,7 @@ from django.db.utils import IntegrityError
 
 
 class Job(models.Model):
-    jobNum = models.AutoField(primary_key=True)
+    jobNum = models.AutoField(primary_key=True,default=1)
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     dockerfile = models.TextField()
