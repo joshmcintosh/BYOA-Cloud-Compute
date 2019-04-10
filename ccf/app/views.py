@@ -200,7 +200,7 @@ def storeImages(outDir, jobNum):
     for entry in os.listdir(outDir):
         job = FinishedJob()
         job.jobNum = jobNum
-        with open(outDir+"/"+ entry, "rb") as fp:
+        with open(outDir + "/" + entry, "rb") as fp:
             job.image = fp.read()
         job.save()
 
