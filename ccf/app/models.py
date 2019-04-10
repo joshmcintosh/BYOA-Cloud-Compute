@@ -36,7 +36,7 @@ class Job(models.Model):
 class FinishedJob(models.Model):
 
     jobNum = models.IntegerField(default=0)
-    image = models.ImageField(upload_to="Images/")
+    image = models.ImageField()
 
     def save(self, *args, **kwargs):
         super(FinishedJob, self).save(*args, **kwargs)

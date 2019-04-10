@@ -200,7 +200,7 @@ def storeImages(outDir, Parentjob):
     for entry in os.listdir(outDir):
         job = FinishedJob()
         job.jobNum = Parentjob.jobNum
-        job.image = entry
+        job.image = outDir+"/"+entry
         job.save()
 
 
