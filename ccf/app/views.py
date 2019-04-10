@@ -197,10 +197,10 @@ def watch_callbacks(callbacks, timeout):
 
 def storeImages(outDir, jobNum):
     job = FinishedJob()
-    for entry in os.listdir(outDir + "/outputs"):
+    for entry in os.listdir(outDir):
         job = FinishedJob()
         job.jobNum = jobNum
-        with open(outDir + "/outputs/" + entry, "rb") as fp:
+        with open(outDir+"/"+ entry, "rb") as fp:
             job.image = fp.read()
         job.save()
 
