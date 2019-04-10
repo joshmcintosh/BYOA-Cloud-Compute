@@ -40,5 +40,6 @@ class FinishedJob(models.Model):
     def save(self, *args, **kwargs):
         try:
             _ = self.user
-        except Job.user.RelatedObjectDoesNotExist:
+        except FinishedJob.jobNum.RelatedObjectDoesNotExist:
             raise IntegrityError("user could not be found.")
+        super(FinishedJob, self).save(*args, **kwargs)
