@@ -144,7 +144,7 @@ def start_job(command_string: str, data_links: list, name: str, thread_number: i
         subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
 
     # clean up... ie make the caller cleanup.
-    return f".procces/{name}"
+    return f".process/{name}"
 
 
 def lex_config(config: str):
