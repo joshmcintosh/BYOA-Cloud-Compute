@@ -17,8 +17,8 @@ def get_STAC_items_from_catalog(catalog):
 
 def divide_list(items, partitions):
     i = 0
-    result = [ [] for _ in range(partitions)]
+    result = [[] for _ in range(partitions)]
     while i < len(items):
-        result[i%partitions].append(items[i])
+        result[i % partitions].append(items[i])
         i += 1
     return result
