@@ -1,4 +1,6 @@
+import importlib
 import os
+import shutil
 from multiprocessing.pool import ThreadPool
 
 from app.data_fetch import divide_list, get_STAC_items_from_catalog
@@ -58,6 +60,9 @@ def job_create_view(request):
             )
         watch_callbacks(callbacks, timeout)
 
+        job.finished = True
+        job.save()
+
         return HttpResponseRedirect(reverse("jobs"))
     else:
         form = JobCreateForm()
@@ -95,11 +100,20 @@ def change_password(request):
 def start_job(config: str, data_links: list):
     """ Start running each job.
 
+        The script being called *must* contain a "run_process" method.
+        This method will return whatever needs to be stored as the return for
+        that run.
+
+        The run process method must accept all args *in order* of how they are called
+        from the config file. The last arg accepted by run_process *must* be the
+        datastore link.
     """
 
     import subprocess
 
     commands = lex_config(config)
+    name = commands[0]
+    commands = commands[1:]
 
     for command in commands[:-1]:
         # TODO: FIx everything about this.
@@ -109,9 +123,16 @@ def start_job(config: str, data_links: list):
     for data_link in data_links:
         execute_command = commands[-1] + f" {data_link}"
         print(f"running: {execute_command} with {execute_command.split(' ')}")
-        subprocess.call(execute_command.split(" "))
+        subprocess.call(execute_command.split(" "), cwd=f".process/{name}/")
+        # script = execute_command[1
 
-    # clean up
+        # importlib.import_module("run_process", f".process.{name}")
+
+    # clean up... ie make the caller cleanup.
+    return f".procces/{name}"
+
+
+#    shutil.rmtree(f".process/{name}/")
 
 
 def lex_config(config: str):
@@ -136,7 +157,11 @@ def lex_config(config: str):
     commands = []
     name = config_commands[0].replace("NAME ", "").strip()
     config_commands = config_commands[1:]
+    commands.append(name)
+
     try:
+        # Remove the directory
+        # shutil.rmtree(f".process/{name}/")
         os.makedirs(f".process/{name}")
     except:
         print("error occurred trying to make subfolder. something might go wrong.")
@@ -151,6 +176,7 @@ def lex_config(config: str):
             commands.append(f"pip install -r .process/{name}/requirements.txt")
         elif config_tokens[0] == "PYTHON_RUN":
             commands.append(f"python .process/{name}/{' '.join(config_tokens[1:])}")
+            # commands.append(f"{' '.join(config_tokens[1:])}")
 
     return commands
 
