@@ -1,6 +1,7 @@
+from multiprocessing.pool import ThreadPool
+
 from app.forms import JobCreateForm
 from app.models import Job
-from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
@@ -30,6 +31,14 @@ def job_create_view(request):
         job = form.save(commit=False)
         job.user = request.user
         job.save()
+
+        # This is a little hack. Sorry.
+        # Create an event pool to spawn a thread to start working on their job.
+        # As this is a prototype system, gloss over the
+        # complex stuff of figuring out how many processes there should be.
+        # Assuming 5 is good. TODO: do this better.
+        event_pool = ThreadPool(processes=5)
+
         return HttpResponseRedirect(reverse("jobs"))
     else:
         form = JobCreateForm()
@@ -62,6 +71,10 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "change_password.html", {"form": form})
+
+
+def start_job(config):
+    pass
 
 
 class SignUp(generic.CreateView):
