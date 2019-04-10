@@ -1,5 +1,6 @@
 from multiprocessing.pool import ThreadPool
 
+from app.data_fetch import divide_list, get_STAC_items_from_catalog
 from app.forms import JobCreateForm
 from app.models import Job
 from django.contrib.auth import update_session_auth_hash
@@ -32,16 +33,26 @@ def job_create_view(request):
         job.user = request.user
         job.save()
 
-        
-        start_job()
-
+        #TODO: get link to catalog and dockerfile
+        catalog = ""
+        config = "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
 
         # This is a little hack. Sorry.
         # Create an event pool to spawn a thread to start working on their job.
         # As this is a prototype system, gloss over the
         # complex stuff of figuring out how many processes there should be.
         # Assuming 5 is good. TODO: do this better.
+        patitions = 2;
+        timeout = 50;
+        items = get_STAC_items_from_catalog(catalog)
+        divided_items = divide_list(items, patitions)
+
         event_pool = ThreadPool(processes=2)
+        callbacks = []
+        for i in range(patitions):
+            callbacks.append(event_pool.apply_async(start_job(), (config, divided_items[i])))
+        watch_callbacks(callbacks, timeout)
+
 
         return HttpResponseRedirect(reverse("jobs"))
     else:
@@ -81,6 +92,12 @@ def start_job(config):
     pass
 
 
+def watch_callbacks(callbacks, timeout):
+    results = []
+    for callback in callbacks:
+        results.append(callback.get(timeout))
+    return results
+
 class SignUp(generic.CreateView):
     """Sign-up Page
 
@@ -90,3 +107,5 @@ class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "signup.html"
+
+
