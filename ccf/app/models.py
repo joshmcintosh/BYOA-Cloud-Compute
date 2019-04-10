@@ -39,8 +39,4 @@ class FinishedJob(models.Model):
     image = models.ImageField(upload_to="Images/")
 
     def save(self, *args, **kwargs):
-        try:
-            _ = self.user
-        except FinishedJob.jobNum.RelatedObjectDoesNotExist:
-            raise IntegrityError("user could not be found.")
         super(FinishedJob, self).save(*args, **kwargs)
