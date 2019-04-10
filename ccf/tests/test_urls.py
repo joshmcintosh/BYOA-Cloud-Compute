@@ -43,7 +43,7 @@ class TestSignupPage(TestCase):
 @patch("app.views.run_setup", MagicMock())
 @patch("app.views.start_job", MagicMock())
 @patch("app.views.watch_callbacks", MagicMock())
-@patch("app.views.StoreImages", MagicMock())
+@patch("app.views.storeImages", MagicMock())
 class TestJobCreatePage(TestCase):
     def test_logged_in_get_job_create(self):
         client = Client()
