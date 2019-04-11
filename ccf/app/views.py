@@ -45,12 +45,12 @@ def job_create_view(request):
         job.save()
 
         # TODO: get link to catalog and dockerfile
-        # config = form.fields['dockerfile']
-        # catalog = form.fields['datastore_link']
-        config = "NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py"
-        catalog = (
-            "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
-        )
+        config = form.fields["config"]
+        catalog = form.fields["catalog_link"]
+        # config = "NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py"
+        # catalog = (
+        #    "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
+        # )
 
         commands = lex_config(config)
         name = commands[0]

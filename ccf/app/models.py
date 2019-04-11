@@ -8,11 +8,11 @@ class Job(models.Model):
     jobNum = models.AutoField(primary_key=True, default=1)
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
-    dockerfile = models.TextField()
+    config = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Arbitrary max length for prototype.
-    datastore_link = models.CharField(max_length=50)
+    catalog_link = models.CharField(max_length=50)
 
     def save(self, *args, **kwargs):
 
