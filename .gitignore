@@ -113,3 +113,6 @@ staticfiles/
 
 # Visual Studio
 .vs/
+
+# Git processing
+.process/

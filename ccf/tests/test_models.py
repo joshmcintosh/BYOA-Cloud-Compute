@@ -9,8 +9,8 @@ def test_create_job_entry():
     test_user = test_utils.create_user("test user", "test_password")
     job = Job(
         finished=False,
-        dockerfile="this is a dockerfile.",
-        datastore_link="abc.com",
+        config="this is a config.",
+        catalog_link="abc.com",
         user=test_user,
     )
 
@@ -20,18 +20,18 @@ def test_create_job_entry():
 
 
 @pytest.mark.django_db()
-def test_creating_job_without_dockerfile_raises_integrity_error():
+def test_creating_job_without_config_raises_integrity_error():
     test_user = test_utils.create_user("test user", "test_password")
-    job = Job(finished=False, datastore_link="abc.com", user=test_user)
+    job = Job(finished=False, catalog_link="abc.com", user=test_user)
 
     with pytest.raises(django.db.utils.IntegrityError):
         job.save()
 
 
 @pytest.mark.django_db()
-def test_create_job_without_datastore_link_raises_integrity_error():
+def test_create_job_without_catalog_link_raises_integrity_error():
     test_user = test_utils.create_user("test user", "test_password")
-    job = Job(finished=False, dockerfile="this is a dockerfile.", user=test_user)
+    job = Job(finished=False, config="this is a config.", user=test_user)
 
     with pytest.raises(django.db.utils.IntegrityError):
         job.save()
@@ -40,9 +40,7 @@ def test_create_job_without_datastore_link_raises_integrity_error():
 @pytest.mark.django_db()
 def test_create_job_without_finished_auto_fills_field_to_false():
     test_user = test_utils.create_user("test user", "test_password")
-    job = Job(
-        dockerfile="This is a dockerfile", datastore_link="abc.com", user=test_user
-    )
+    job = Job(config="This is a config", catalog_link="abc.com", user=test_user)
 
     assert not job.finished
 
@@ -50,9 +48,7 @@ def test_create_job_without_finished_auto_fills_field_to_false():
 @pytest.mark.django_db()
 def test_create_job_without_user_raises_integrity_error():
     test_user = test_utils.create_user("test user", "test_password")
-    job = Job(
-        finished=False, dockerfile="this is a dockerfile.", datastore_link="abc.com"
-    )
+    job = Job(finished=False, config="this is a config.", catalog_link="abc.com")
 
     with pytest.raises(django.db.utils.IntegrityError):
         job.save()

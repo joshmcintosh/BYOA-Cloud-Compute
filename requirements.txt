@@ -1,3 +1,5 @@
 django==2.1.8
-psycopg2
+psycopg2-binary
 whitenoise
+requests
+Pillow

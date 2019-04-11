@@ -24,5 +24,6 @@ urlpatterns = [
     path("accounts/changepassword/", views.change_password, name="change_password"),
     path("jobs/create/", views.job_create_view, name="job_create"),
     path("jobs/", views.jobs_view, name="jobs"),
+    path("jobs/<int:jobNum>", views.job_images_view, name="job_images"),
     path("", views.homepage_view, name="home"),
 ]

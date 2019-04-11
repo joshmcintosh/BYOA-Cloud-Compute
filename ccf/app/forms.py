@@ -6,4 +6,4 @@ from .models import Job
 class JobCreateForm(ModelForm):
     class Meta:
         model = Job
-        fields = ["dockerfile", "datastore_link"]
+        fields = ["config", "catalog_link"]
