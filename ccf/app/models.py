@@ -16,11 +16,11 @@ class Job(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if not self.dockerfile:
-            raise IntegrityError("dockerfile value must not be blank.")
+        if not self.config:
+            raise IntegrityError("config value must not be blank.")
 
-        if not self.datastore_link:
-            raise IntegrityError("datastore_link value must not be blank.")
+        if not self.catalog_link:
+            raise IntegrityError("catalog_link value must not be blank.")
 
         # Gross hack to convert an error with app.models.Job.user.RelatedObjectDoesNotExist
         # to an integrity error. We prefer an integriy error here as a job without a

@@ -6,14 +6,14 @@
     <table>
         <tr>
             <th>Time Started</th>
-            <th>Dockerfile</th>
-            <th>Datastore Link</th>
+            <th>Config</th>
+            <th>Catalog Link</th>
         </tr>
         {% for job in unfinished_jobs %}
         <tr>
             <td>{{ job.time_started }}</td>
-            <td>{{ job.dockerfile }}</td>
-            <td>{{ job.datastore_link }}</td>
+            <td>{{ job.config }}</td>
+            <td>{{ job.catalog_link }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -27,15 +27,15 @@
     <table>
         <tr>
             <th>Time Started</th>
-            <th>Dockerfile</th>
-            <th>Datastore Link</th>
+            <th>Config</th>
+            <th>Catalog Link</th>
             <th>Images</th>
         </tr>
         {% for job in finished_jobs %}
         <tr>
             <td>{{ job.time_started }}</td>
-            <td>{{ job.dockerfile }}</td>
-            <td>{{ job.datastore_link }}</td>
+            <td>{{ job.config }}</td>
+            <td>{{ job.catalog_link }}</td>
             <td><a href="{% url 'job_images' job.jobNum %}">images</a></td>
         </tr>
         {% endfor %}
