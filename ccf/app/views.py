@@ -54,7 +54,7 @@ def job_create_view(request):
         #    "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
         # )
 
-        commands = lex_config(config)
+        commands = lex_config(config, job.jobNum)
         name = commands[0]
         commands = commands[1:]
 
@@ -151,7 +151,7 @@ def start_job(command_string: str, data_links: list, name: str, thread_number: i
     return f".process/{name}"
 
 
-def lex_config(config: str):
+def lex_config(config: str, jobNum: int):
     """ Processes a config file and returns the commands that need to be run.
 
         This project has only *very* basic support. The allowed commands are
@@ -171,7 +171,7 @@ def lex_config(config: str):
 
     config_commands = config.split(";")
     commands = []
-    name = config_commands[0].replace("NAME ", "").strip()
+    name = str(jobNum) + "." + config_commands[0].replace("NAME ", "").strip()
     config_commands = config_commands[1:]
     commands.append(name)
 
