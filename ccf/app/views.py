@@ -45,8 +45,10 @@ def job_create_view(request):
         job.save()
 
         # TODO: get link to catalog and dockerfile
-        config = form.fields["config"]
-        catalog = form.fields["catalog_link"]
+        config = form.cleaned_data["config"]
+        catalog = form.cleaned_data["catalog_link"]
+
+        print(f"New job requested with\n\tconfig: {config}\n\tcatalog_link: {catalog}")
         # config = "NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py"
         # catalog = (
         #    "https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json"
