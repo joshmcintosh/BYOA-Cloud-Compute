@@ -79,7 +79,9 @@ def job_create_view(request):
                 )
             )
         outDir = watch_callbacks(callbacks, timeout)
-        storeImages(outDir, job)
+        storeImages(outDir + "/outputs", job)
+
+        shutil.rmtree(outDir)
         job.finished = True
         job.save()
 
@@ -194,7 +196,7 @@ def watch_callbacks(callbacks, timeout):
         results.append(callback.get(timeout))
     if len(results) < 1:
         return None
-    return results[0] + "/outputs"
+    return results[0]
 
 
 def storeImages(outDir, Parentjob):
