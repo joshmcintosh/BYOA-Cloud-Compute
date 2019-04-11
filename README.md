@@ -82,3 +82,17 @@ have all of the docker components needed.
 Deployment is automatically handled by Travis-ci and Heroku. Due to the nature of this project up-time is *not* guaranteed as the server may be spun-down by the owner when it is not needed.
 Should you need to see something in prod when it is down, please contact the owner of this github repository so that it can be turned back on. 
 The prod website can be found [here](https://seng371p2.herokuapp.com)
+
+### Sample STAC Data and Processing Algorithm
+A demonstration of this project can be viewed by creating a new job and adding the following to the fields:
+
+Config:
+```
+NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py
+```
+Catalog Link:
+```
+https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json
+```
+
+Once complete, the completed job will output an inverted image which can be viewed from the Jobs page.
