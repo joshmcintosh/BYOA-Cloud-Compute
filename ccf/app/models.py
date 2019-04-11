@@ -5,7 +5,7 @@ from django.db.utils import IntegrityError
 
 
 class Job(models.Model):
-    jobNum = models.AutoField(primary_key=True, default=1)
+    jobNum = models.AutoField(primary_key=True)
     finished = models.BooleanField(default=False)
     time_started = models.DateTimeField(default=django.utils.timezone.now, blank=False)
     config = models.TextField()
