@@ -103,6 +103,13 @@ def jobs_view(request):
 
 
 @login_required
+def job_images_view(request, jobNum):
+    images = FinishedJob.objects.filter(jobNum=jobNum)
+    context = {"jobNum": jobNum, "images": images}
+    return render(request, "job_images.html", context)
+
+
+@login_required
 def change_password(request):
     if request.method == "POST":
         form = PasswordChangeForm(request.user, request.POST)
@@ -196,7 +203,7 @@ def storeImages(outDir, Parentjob):
         enco = ""
         with open(outDir + "/" + entry, "rb") as fp:
             enco = base64.b64encode(fp.read())
-        job.image = enco
+        job.image = Str(enco)[2:-1]
         job.save()
 
 

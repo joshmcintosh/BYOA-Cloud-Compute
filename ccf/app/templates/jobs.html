@@ -29,12 +29,14 @@
             <th>Time Started</th>
             <th>Dockerfile</th>
             <th>Datastore Link</th>
+            <th>Images</th>
         </tr>
         {% for job in finished_jobs %}
         <tr>
             <td>{{ job.time_started }}</td>
             <td>{{ job.dockerfile }}</td>
             <td>{{ job.datastore_link }}</td>
+            <td><a href="{% url 'job_images' job.jobNum %}">images</a></td>
         </tr>
         {% endfor %}
     </table>
