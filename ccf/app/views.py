@@ -203,7 +203,7 @@ def storeImages(outDir, Parentjob):
         enco = ""
         with open(outDir + "/" + entry, "rb") as fp:
             enco = base64.b64encode(fp.read())
-        job.image = Str(enco)[2:-1]
+        job.image = str(enco)[2:-1]
         job.save()
 
 
