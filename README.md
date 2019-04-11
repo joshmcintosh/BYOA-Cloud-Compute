@@ -8,7 +8,27 @@
 # SENG-371-Project-2
 Live use case for BYOA cloud compute framework (ccf).
 
-# Running the project
+## Production Environment
+Deployment is automatically handled by Travis-ci and Heroku. Due to the nature of this project up-time is *not* guaranteed as the server may be spun-down by the owner when it is not needed.
+Should you need to see something in prod when it is down, please contact the owner of this github repository so that it can be turned back on. 
+[The production website can be found here.](https://seng371p2.herokuapp.com)
+Note, the inital load of the website might have a high delay, and it is suggested waiting for up to 60 seconds if it is failing to appear.
+
+### Sample STAC Data and Processing Algorithm
+A demonstration of this project can be viewed by creating a new job and adding the following to the fields:
+
+Config:
+```
+NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py
+```
+Catalog Link:
+```
+https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json
+```
+
+Once complete, the completed job will output an inverted image which can be viewed from the Jobs page.
+
+# Running the project locally
 On your first run you may need to start a Docker daemon. This
 can be done with
 ``` commandline
@@ -77,22 +97,3 @@ sudo apt-get install docker-compose
 
 Once these have sucessfully been installed, you
 have all of the docker components needed.
-
-## Production Environment
-Deployment is automatically handled by Travis-ci and Heroku. Due to the nature of this project up-time is *not* guaranteed as the server may be spun-down by the owner when it is not needed.
-Should you need to see something in prod when it is down, please contact the owner of this github repository so that it can be turned back on. 
-The prod website can be found [here](https://seng371p2.herokuapp.com)
-
-### Sample STAC Data and Processing Algorithm
-A demonstration of this project can be viewed by creating a new job and adding the following to the fields:
-
-Config:
-```
-NAME Ethan; GIT_CLONE  https://github.com/eetar1/Seng371-Worker; INSTALL_REQUIREMENTS; PYTHON_RUN dataFetch.py
-```
-Catalog Link:
-```
-https://cbers-stac-0-6.s3.amazonaws.com/CBERS4/MUX/065/094/catalog.json
-```
-
-Once complete, the completed job will output an inverted image which can be viewed from the Jobs page.
