@@ -12,7 +12,7 @@ class Job(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Arbitrary max length for prototype.
-    catalog_link = models.CharField(max_length=50)
+    catalog_link = models.TextField(default=None)
 
     def save(self, *args, **kwargs):
 
