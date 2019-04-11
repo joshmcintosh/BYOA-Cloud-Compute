@@ -9,12 +9,9 @@ def create_user(username, password):
     return test_user
 
 
-def create_job(test_user, dockerfile, datastore_link, finished=False):
+def create_job(test_user, config, catalog_link, finished=False):
     job = Job(
-        finished=finished,
-        dockerfile=dockerfile,
-        datastore_link=datastore_link,
-        user=test_user,
+        finished=finished, config=config, catalog_link=catalog_link, user=test_user
     )
     job.save()
     return job
