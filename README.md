@@ -5,8 +5,8 @@
 
 
 
-# SENG-371-Project-2
-Live use case for BYOA cloud compute framework (ccf).
+# BYOA Cloud Compute Framework
+Live use case for BYOA cloud compute framework (ccf). This project is not meant to be a stable cloud compute server. It was created as a class project, and despite having basic functionality is still very rough. 
 
 ## Production Environment
 Deployment is automatically handled by Travis-ci and Heroku. Due to the nature of this project up-time is *not* guaranteed as the server may be spun-down by the owner when it is not needed.
