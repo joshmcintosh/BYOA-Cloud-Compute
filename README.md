@@ -6,6 +6,8 @@
 
 
 # BYOA Cloud Compute Framework
+*This is a fork of the actual project, which can be found [here](https://github.com/Ross-Alexandra/BYOA-Cloud-Compute). All issues, contributors, ect. can be found there.*
+
 Live use case for BYOA cloud compute framework (ccf). This project is not meant to be a stable cloud compute server. It was created as a class project, and despite having basic functionality is still very rough. 
 
 ## Production Environment
